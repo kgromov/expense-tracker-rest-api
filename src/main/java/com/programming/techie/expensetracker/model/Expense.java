@@ -1,11 +1,9 @@
 package com.programming.techie.expensetracker.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.hibernate.annotations.UuidGenerator;
 
-// TODO: rewrite to H2
 import java.math.BigDecimal;
 
 @Getter
@@ -13,14 +11,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document("expense")
+@Entity
 public class Expense {
     @Id
+    @UuidGenerator
     private String id;
-    @Field("name")
+    @Column(name = "name")
     private String expenseName;
-    @Field("category")
+    @Column(name ="category")
     private ExpenseCategory expenseCategory;
-    @Field("amount")
+    @Column(name ="amount")
     private BigDecimal expenseAmount;
 }

@@ -32,7 +32,7 @@ public class ExpenseController {
                     content = @Content)})
     @PostMapping
     public ResponseEntity<Void> addExpense(@RequestBody ExpenseDto expenseDto) {
-        String expenseId = expenseService.addExpense(expenseDto);
+        String expenseId = expenseService.createExpense(expenseDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

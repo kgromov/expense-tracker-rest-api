@@ -19,15 +19,18 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
-    public String addExpense(ExpenseDto expenseDto) {
+    @Transactional
+    public String createExpense(ExpenseDto expenseDto) {
         Expense expense = mapFromDto(expenseDto);
-        return expenseRepository.insert(expense).getId();
+        return expenseRepository.saveAndFlush(expense).getId();
     }
 
+    @Transactional
     public void updateExpense(ExpenseDto expenseDto) {
         Expense expense = mapFromDto(expenseDto);
-        Expense savedExpense = expenseRepository.findById(expenseDto.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                String.format("Cannot Find Expense by ID %s", expense.getId())));
+        Expense savedExpense = expenseRepository.findById(expenseDto.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        String.format("Cannot Find Expense by ID %s", expense.getId())));
         savedExpense.setExpenseName(expense.getExpenseName());
         savedExpense.setExpenseCategory(expense.getExpenseCategory());
         savedExpense.setExpenseAmount(expense.getExpenseAmount());
@@ -44,7 +47,8 @@ public class ExpenseService {
     public List<ExpenseDto> getAllExpenses() {
         return expenseRepository.findAll()
                 .stream()
-                .map(this::mapToDto).toList();
+                .map(this::mapToDto)
+                .toList();
     }
 
     public void deleteExpense(String id) {

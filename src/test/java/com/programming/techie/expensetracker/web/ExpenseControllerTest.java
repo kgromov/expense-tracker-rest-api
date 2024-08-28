@@ -43,7 +43,7 @@ class ExpenseControllerTest {
                 .expenseAmount(BigDecimal.TEN)
                 .build();
 
-        Mockito.when(expenseService.addExpense(expenseDto)).thenReturn("123");
+        Mockito.when(expenseService.createExpense(expenseDto)).thenReturn("123");
 
         MvcResult mvcResult = mockMvc.perform(post("/api/expense")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
